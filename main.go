@@ -10,6 +10,7 @@ import (
 	"runtime"
 	"syscall"
 	"time"
+	"unsafe"
 
 	_ "github.com/joho/godotenv/autoload"
 )
@@ -27,7 +28,7 @@ var sysEventChannel = make(chan sysEventMessage, 5)
 var logOutput io.Writer
 var startTime time.Time
 
-var logFileName = flag.String("log", "/tmp/askthebookweb.log", "Log file ('-' for only stderr)")
+var logFileName = flag.String("log", "/tmp/bulletcache2.log", "Log file ('-' for only stderr)")
 
 func main() {
 	os.Setenv("TZ", "UTC")
@@ -35,7 +36,7 @@ func main() {
 	rand.Seed(startTime.UnixNano())
 
 	if runtime.GOOS == "windows" {
-		*logFileName = "c:\\temp\\equinox_server.log"
+		*logFileName = "c:\\temp\\bulletcache2.log"
 	}
 	flag.Parse()
 
@@ -52,6 +53,7 @@ func main() {
 	log.SetOutput(logOutput)
 
 	log.Println("Starting up...")
+	log.Printf("sizeof(CacheRecord)=%d\n", unsafe.Sizeof(CacheRecord{}))
 
 	sigChannel := make(chan os.Signal, 1)
 	signal.Notify(sigChannel, syscall.SIGINT)

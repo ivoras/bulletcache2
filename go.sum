@@ -1,3 +1,5 @@
+github.com/ivoras/utime v0.0.0-20191009204900-34b27aefeaaf h1:gs1xDzgsR7a0CNEfPC1qNmxvRx7BB2A79EJvs9IZpFw=
+github.com/ivoras/utime v0.0.0-20191009204900-34b27aefeaaf/go.mod h1:ihro8Ta8EhNXIs+TfSGTaCxR5WR+1p4rG4LTeGLHksU=
 github.com/joho/godotenv v1.4.0 h1:3l4+N6zfMWnkbPEXKng2o2/MR5mSwTrBih4ZEkkz1lg=
 github.com/joho/godotenv v1.4.0/go.mod h1:f4LDr5Voq0i2e/R5DDNOoa2zzDfwtkZa6DnEwAbqwq4=
 github.com/petermattis/goid v0.0.0-20180202154549-b0b1615b78e5 h1:q2e307iGHPdTGp0hoxKjt1H5pDo6utceo3dQVK3I5XQ=
