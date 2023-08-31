@@ -1,4 +1,4 @@
-package main
+package util
 
 import (
 	"bytes"
@@ -20,16 +20,16 @@ import (
 	sync "github.com/sasha-s/go-deadlock"
 )
 
-func round(num float64) int {
+func Round(num float64) int {
 	return int(num + math.Copysign(0.5, num))
 }
 
-func truncf(num float64, precision int) float64 {
+func Truncf(num float64, precision int) float64 {
 	output := math.Pow(10, float64(precision))
-	return float64(round(num*output)) / output
+	return float64(Round(num*output)) / output
 }
 
-func minInt(vars ...int) int {
+func MinInt(vars ...int) int {
 	min := vars[0]
 
 	for _, i := range vars {
@@ -41,7 +41,7 @@ func minInt(vars ...int) int {
 	return min
 }
 
-func absInt(i int) int {
+func AbsInt(i int) int {
 	if i > 0 {
 		return i
 	}
@@ -49,7 +49,7 @@ func absInt(i int) int {
 }
 
 // jsonifyWhatever converts whatever is passed into a JSON string.
-func jsonifyWhatever(i interface{}) string {
+func JsonifyWhatever(i interface{}) string {
 	jsonb, err := json.Marshal(i)
 	if err != nil {
 		log.Panic(err)
@@ -58,7 +58,7 @@ func jsonifyWhatever(i interface{}) string {
 }
 
 // jsonifyWhateverToBytes converts whatever is passed into a JSON byte slice.
-func jsonifyWhateverToBytes(i interface{}) []byte {
+func JsonifyWhateverToBytes(i interface{}) []byte {
 	jsonb, err := json.Marshal(i)
 	if err != nil {
 		log.Panic(err)
@@ -68,7 +68,7 @@ func jsonifyWhateverToBytes(i interface{}) []byte {
 
 // jsonifyWhateverToBuffer converts whatever is passed into a
 // JSON byte buffer.
-func jsonifyWhateverToBuffer(i interface{}) *bytes.Buffer {
+func JsonifyWhateverToBuffer(i interface{}) *bytes.Buffer {
 	b := new(bytes.Buffer)
 	json.NewEncoder(b).Encode(i)
 	return b
@@ -106,12 +106,12 @@ func (m *WithRWMutex) WithWLock(f func()) {
 }
 
 // Converts the given Unix timestamp to time.Time
-func unixTimeStampToUTCTime(ts int) time.Time {
+func UnixTimeStampToUTCTime(ts int) time.Time {
 	return time.Unix(int64(ts), 0)
 }
 
 // Gets the current Unix timestamp in UTC
-func getNowUTC() int64 {
+func GetNowUTC() int64 {
 	return time.Now().UTC().Unix()
 }
 
@@ -125,13 +125,13 @@ func stringMap2JsonBytes(m map[string]string) []byte {
 }
 
 // Returns a hex-encoded hash of the given byte slice
-func hashBytesToHexString(b []byte) string {
+func HashBytesToHexString(b []byte) string {
 	hash := sha256.Sum256(b)
 	return hex.EncodeToString(hash[:])
 }
 
 // Returns a hex-encoded hash of the given file
-func hashFileToHexString(fileName string) (string, error) {
+func HashFileToHexString(fileName string) (string, error) {
 	file, err := os.Open(fileName)
 	if err != nil {
 		return "", err
@@ -145,11 +145,11 @@ func hashFileToHexString(fileName string) (string, error) {
 	return hex.EncodeToString(hash.Sum(nil)), nil
 }
 
-func nowUTC() time.Time {
+func NowUTC() time.Time {
 	return time.Now().UTC()
 }
 
-func fileExists(filename string) bool {
+func FileExists(filename string) bool {
 	info, err := os.Stat(filename)
 	if os.IsNotExist(err) {
 		return false
@@ -157,7 +157,7 @@ func fileExists(filename string) bool {
 	return !info.IsDir()
 }
 
-func roundF32toInt(f float32) int {
+func RoundF32toInt(f float32) int {
 	return int(math.Round(float64(f)))
 }
 
@@ -167,7 +167,7 @@ func euclidDistance(lat1, lng1, lat2, lng2 float32) float32 {
 	return float32(math.Sqrt(dLat*dLat + dLng*dLng))
 }
 
-func ifToFloat64(i interface{}) (f float64) {
+func IfToFloat64(i interface{}) (f float64) {
 	if i != nil {
 		switch v := i.(type) {
 		case float64:
@@ -185,7 +185,7 @@ func ifToFloat64(i interface{}) (f float64) {
 
 var letters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!")
 
-func randomString(n int) string {
+func RandomString(n int) string {
 	b := make([]rune, n)
 	for i := range b {
 		b[i] = letters[rand.Intn(len(letters))]
@@ -193,7 +193,7 @@ func randomString(n int) string {
 	return string(b)
 }
 
-func getHTTPJSONdict(url string) (m map[string]interface{}, err error) {
+func GetHTTPJSONdict(url string) (m map[string]interface{}, err error) {
 	req, err := http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {
 		return
@@ -216,7 +216,7 @@ func getHTTPJSONdict(url string) (m map[string]interface{}, err error) {
 	return
 }
 
-func getHTTPJSON(url string, i interface{}) (err error) {
+func GetHTTPJSON(url string, i interface{}) (err error) {
 	req, err := http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {
 		return
@@ -242,7 +242,7 @@ type Number interface {
 	constraints.Integer | constraints.Float
 }
 
-func abs[T Number](n T) T {
+func Abs[T Number](n T) T {
 	if n < T(0) {
 		return -n
 	} else {
@@ -254,6 +254,6 @@ type BiggishNumber interface {
 	~uint | ~uint32 | ~uint64 | ~uintptr | constraints.Float
 }
 
-func bToMB[T BiggishNumber](n T) T {
+func BToMB[T BiggishNumber](n T) T {
 	return n / T(1024*1024)
 }

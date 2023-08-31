@@ -13,6 +13,9 @@ import (
 	"unsafe"
 
 	_ "github.com/joho/godotenv/autoload"
+
+	"github.com/ivoras/bulletcache2/types"
+	"github.com/ivoras/bulletcache2/util"
 )
 
 const (
@@ -42,18 +45,19 @@ func main() {
 
 	if *logFileName != "-" {
 		f, err := os.OpenFile(*logFileName, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0664)
-		if err != nil {
-			log.Panic("Cannot open log file " + *logFileName)
+		if err == nil {
+			defer f.Close()
+			logOutput = io.MultiWriter(os.Stderr, f)
+		} else {
+			log.Println("Cannot open log file " + *logFileName)
 		}
-		defer f.Close()
-		logOutput = io.MultiWriter(os.Stderr, f)
 	} else {
 		logOutput = os.Stderr
 	}
 	log.SetOutput(logOutput)
 
 	log.Println("Starting up...")
-	log.Printf("sizeof(CacheRecord)=%d\n", unsafe.Sizeof(CacheRecord{}))
+	log.Printf("sizeof(CacheRecord)=%d\n", unsafe.Sizeof(types.CacheRecord{}))
 
 	sigChannel := make(chan os.Signal, 1)
 	signal.Notify(sigChannel, syscall.SIGINT)
@@ -83,7 +87,7 @@ func main() {
 		case <-time.After(60 * time.Second):
 
 			runtime.ReadMemStats(&m)
-			if abs(int64(m.Alloc)-oldAlloc) > 1024*1024 {
+			if util.Abs(int64(m.Alloc)-oldAlloc) > 1024*1024 {
 				printMemStats(&m)
 				oldAlloc = int64(m.Alloc)
 			}
@@ -96,5 +100,5 @@ func main() {
 func printMemStats(m *runtime.MemStats) {
 	// For info on each, see: https://golang.org/pkg/runtime/#MemStats
 	log.Printf("Alloc: %v MiB\tTotalAlloc: %v MiB\tSys: %v MiB\tNumGC: %v\tUptime: %0.1fh\n",
-		bToMB(m.Alloc), bToMB(m.TotalAlloc), bToMB(m.Sys), m.NumGC, time.Since(startTime).Hours())
+		util.BToMB(m.Alloc), util.BToMB(m.TotalAlloc), util.BToMB(m.Sys), m.NumGC, time.Since(startTime).Hours())
 }
