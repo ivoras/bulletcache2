@@ -5,12 +5,13 @@ import "github.com/ivoras/utime"
 const MaxTagsPerRecord = 8
 
 type CacheRecord struct {
-	MTime      utime.Time
+	ExpTime    utime.Time
 	Flags      uint16
 	Key        CacheKey
 	TagsLength uint8
 	Tags       [MaxTagsPerRecord]CacheTag
-	Data       []byte
+	CASCookie  uint64
+	Value      []byte
 }
 
 // HasTags returns true if the record is tagged with all of the given tags
