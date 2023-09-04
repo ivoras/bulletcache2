@@ -2,6 +2,8 @@
 
 A high performance, multithreaded in-memory cache database optimized for group record expiry and supporting multiple protocols (memcached, redis, gRPC, REST).
 
+Current state: deep into development, not yet usable.
+
 ## Plan
 
 The overarching idea is to prioritise performance, even to the point of sacrificing some features and comfort for it. In its basic functionalities, it's more similar to Memcached than Redis, with the added feature of having optional tags attached to records, which are mainly intended to *help with cache invalidation*. It will support multiple protocols accessing the same memory cache database, including Memcached, Redis, gRPC and plain HTTP.
