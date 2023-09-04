@@ -1,6 +1,6 @@
 # Bullet Cache 2 (BC2)
 
-A high performance, multithreaded memory cache server with domain tagging.
+A high performance, multithreaded memory cache server optimized for group record expiry and supporting multiple protocols (memcached, redis, gRPC, REST).
 
 ## Plan
 
@@ -21,8 +21,10 @@ The plan is to create the following:
 - [ ] Implementaion of every single Memcached op from https://github.com/memcached/memcached/wiki/Commands
 - [ ] Redis-compatible protocol for easier adoption, at least for simpler commands
 - [ ] A gRPC-based protocol for added performance
-- [ ] A HTTP REST-like network protocol for convenience
+- [ ] A HTTP REST-like network protocol for convenience, using https://github.com/valyala/fasthttp (yes, this means you'll be able to SET some data into the in-memory cache using the Memcached or Redis protocol, and serve them from memory via HTTP)
 - [ ] Redis-like persistance and loading for "permanent" data
+
+BC2 aims to be a good microservice player, configurable and usable in a container. See the `.env.template` file for configurable variables.
 
 # Data model
 
