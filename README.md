@@ -1,12 +1,12 @@
 # Bullet Cache 2 (BC2)
 
-A high performance, multithreaded memory cache server optimized for group record expiry and supporting multiple protocols (memcached, redis, gRPC, REST).
+A high performance, multithreaded in-memory cache database optimized for group record expiry and supporting multiple protocols (memcached, redis, gRPC, REST).
 
 ## Plan
 
-The overarching idea is to prioritise performance, even to the point of sacrificing some features and comfort for it. In its basic functionalities, it's more similar to Memcached than Redis, with the added feature of having optional tags attached to records, which are mainly intended to *help with cache invalidation*. It should be a drop-in replacement for Memcached, while supporting some basic Redis functions. Yes, it will support multiple protocols accessing the same cache.
+The overarching idea is to prioritise performance, even to the point of sacrificing some features and comfort for it. In its basic functionalities, it's more similar to Memcached than Redis, with the added feature of having optional tags attached to records, which are mainly intended to *help with cache invalidation*. It will support multiple protocols accessing the same memory cache database, including Memcached, Redis, gRPC and plain HTTP.
 
-In addition to setting and deleting records by addressing them with their keys, they can be deleted in bulk by addressing them with tags. In spirit, this is a continuation (and closure) of the project I did in my PhD thesis a long long time ago, which started as `mdcached` - the multi-domain cache server, and was developed into [Bullet Cache](https://mdcached.sourceforge.net/). I've learned a lot since then and this project should be much more robust.
+In addition to setting and deleting records by addressing them with keys, they can be deleted in bulk by addressing them with tags, enabling bulk cache invalidation. In spirit, this is a continuation (and closure) of the project I did in my PhD thesis a long long time ago, which started as `mdcached` - the multi-domain cache server, and was developed into [Bullet Cache](https://mdcached.sourceforge.net/). I've learned a lot since then and this project should be much more robust.
 
 The plan is to create the following:
 
